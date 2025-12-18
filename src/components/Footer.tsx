@@ -3,39 +3,46 @@ import { Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-foreground text-background py-12">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="text-center md:text-left">
-            <h3 className="font-display text-3xl mb-2">BACCHANAL</h3>
-            <p className="font-handwritten text-lg opacity-80">
-              Keep your carnival memories alive
+    <footer className="relative py-20 noise-overlay">
+      <div className="absolute inset-0 bg-muted" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid md:grid-cols-3 gap-12 items-start">
+          <div>
+            <h3 className="font-display text-4xl gradient-text mb-4">BACCHANAL</h3>
+            <p className="font-handwritten text-lg text-muted-foreground">
+              Keep your carnival memories alive forever.
             </p>
           </div>
 
-          <div className="flex flex-col items-center md:items-end gap-4">
-            <div className="flex gap-6">
-              <Link to="/" className="hover:opacity-80 transition-opacity">
+          <div className="space-y-4">
+            <h4 className="font-display text-xl text-foreground mb-4">Navigate</h4>
+            <div className="flex flex-col gap-3">
+              <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
                 Home
               </Link>
-              <Link to="/customize" className="hover:opacity-80 transition-opacity">
-                Customize
+              <Link to="/customize" className="text-muted-foreground hover:text-primary transition-colors">
+                Customize Your Book
               </Link>
-              <Link to="/faqs" className="hover:opacity-80 transition-opacity">
+              <Link to="/faqs" className="text-muted-foreground hover:text-primary transition-colors">
                 FAQs
               </Link>
             </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="font-display text-xl text-foreground mb-4">Connect</h4>
             <div className="flex gap-4">
               <a
                 href="#"
-                className="p-2 rounded-full bg-background/10 hover:bg-background/20 transition-colors"
+                className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/30 transition-all"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
               </a>
               <a
                 href="#"
-                className="p-2 rounded-full bg-background/10 hover:bg-background/20 transition-colors"
+                className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/30 transition-all"
                 aria-label="Twitter"
               >
                 <Twitter size={20} />
@@ -44,8 +51,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-background/20 text-center">
-          <p className="text-sm opacity-60">
+        <div className="mt-16 pt-8 border-t border-border text-center">
+          <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Bacchanal. All rights reserved.
           </p>
         </div>

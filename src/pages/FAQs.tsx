@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ArrowRight } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +10,30 @@ import {
 } from "@/components/ui/accordion";
 
 const FAQs = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".faq-title", {
+        y: 80,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      gsap.from(".faq-item", {
+        y: 40,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        delay: 0.3,
+        ease: "power3.out",
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const faqs = [
     {
       question: "What is Bacchanal?",
@@ -43,21 +70,24 @@ const FAQs = () => {
   ];
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 overflow-hidden">
       {/* Hero */}
-      <section className="py-20 bg-secondary">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="font-display text-5xl md:text-7xl text-secondary-foreground mb-6">
-            FREQUENTLY ASKED QUESTIONS
+      <section ref={heroRef} className="relative py-32">
+        <div className="orb w-[600px] h-[600px] top-0 left-0 bg-secondary/10" />
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <h1 className="faq-title font-display text-5xl md:text-7xl lg:text-8xl text-foreground mb-6">
+            FREQUENTLY ASKED
+            <span className="block gradient-text-teal">QUESTIONS</span>
           </h1>
-          <p className="text-xl text-secondary-foreground/80 max-w-2xl mx-auto">
+          <p className="faq-title text-xl text-muted-foreground max-w-2xl mx-auto">
             Everything you need to know about creating your Bacchanal photo book.
           </p>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
@@ -65,12 +95,12 @@ const FAQs = () => {
                 <AccordionItem 
                   key={index} 
                   value={`item-${index}`}
-                  className="bg-card rounded-xl px-6 shadow-sm border-none"
+                  className="faq-item bento-card border-none overflow-hidden"
                 >
-                  <AccordionTrigger className="font-display text-lg text-card-foreground hover:text-primary hover:no-underline py-6">
+                  <AccordionTrigger className="font-display text-lg text-foreground hover:text-primary hover:no-underline px-6 py-5">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6">
+                  <AccordionContent className="text-muted-foreground px-6 pb-5">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -81,16 +111,21 @@ const FAQs = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="font-display text-4xl md:text-5xl text-primary-foreground mb-6">
-            STILL HAVE QUESTIONS?
+      <section className="py-32 relative">
+        <div className="orb w-[500px] h-[500px] bottom-0 right-0 bg-primary/10" />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6">
+            STILL HAVE <span className="gradient-text">QUESTIONS?</span>
           </h2>
-          <p className="text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
+          <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
             Ready to start preserving your carnival memories? We're here to help.
           </p>
-          <Link to="/customize" className="btn-teal">
-            Customize Your Book
+          <Link to="/customize" className="btn-modern group">
+            <span className="flex items-center gap-2">
+              Customize Your Book
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
           </Link>
         </div>
       </section>
