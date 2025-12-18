@@ -16,7 +16,7 @@ export default {
       fontFamily: {
         display: ['Bangers', 'cursive'],
         handwritten: ['Kalam', 'cursive'],
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -48,6 +48,10 @@ export default {
           DEFAULT: "hsl(var(--olive))",
           foreground: "hsl(var(--olive-foreground))",
         },
+        pink: {
+          DEFAULT: "hsl(var(--pink))",
+          foreground: "hsl(var(--pink-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -71,6 +75,8 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1.5rem",
+        "3xl": "2rem",
       },
       keyframes: {
         "accordion-down": {

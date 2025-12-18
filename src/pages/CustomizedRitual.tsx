@@ -1,16 +1,62 @@
 import { Link } from "react-router-dom";
-import { Camera, Users, FolderOpen, Sparkles, Heart } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Camera, Users, FolderOpen, Sparkles, Heart, ArrowRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const CustomizedRitual = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".ritual-title", {
+        y: 80,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      gsap.from(".ritual-subtitle", {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.3,
+        ease: "power3.out",
+      });
+
+      if (stepsRef.current) {
+        gsap.from(".step-card", {
+          scrollTrigger: {
+            trigger: stepsRef.current,
+            start: "top 70%",
+          },
+          y: 100,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+        });
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="pt-16">
+    <div className="pt-16 overflow-hidden">
       {/* Hero */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="font-display text-5xl md:text-7xl text-primary-foreground mb-6">
-            CUSTOMIZE YOUR BACCHANAL BOOK
+      <section ref={heroRef} className="relative py-32">
+        <div className="orb w-[600px] h-[600px] top-0 right-0 bg-primary/10" />
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <h1 className="ritual-title font-display text-5xl md:text-7xl lg:text-8xl text-foreground mb-6">
+            CUSTOMIZE YOUR
+            <span className="block gradient-text">BACCHANAL BOOK</span>
           </h1>
-          <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+          <p className="ritual-subtitle text-xl text-muted-foreground max-w-2xl mx-auto">
             Your memories deserve more than a camera roll. Create a book that reflects 
             your experience, your people, your version of Bacchanal.
           </p>
@@ -18,30 +64,30 @@ const CustomizedRitual = () => {
       </section>
 
       {/* Steps Section */}
-      <section className="py-20 bg-background">
+      <section ref={stepsRef} className="py-32 relative">
         <div className="container mx-auto px-4">
-          <h2 className="font-display text-4xl md:text-5xl text-foreground text-center mb-4">
-            PREPARE YOUR MEMORIES
-          </h2>
-          <p className="text-muted-foreground text-center mb-16 max-w-xl mx-auto">
-            Before you begin customizing, gather all your carnival moments in one place.
-          </p>
+          <div className="text-center mb-16">
+            <span className="text-secondary font-handwritten text-xl mb-4 block">Before You Start</span>
+            <h2 className="font-display text-4xl md:text-5xl text-foreground">
+              PREPARE YOUR MEMORIES
+            </h2>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <StepCard 
-              number={1}
+              number="01"
               icon={<Camera className="w-8 h-8" />}
               title="Collect All Photos"
               description="Gather every carnival photo from your phone, including those hidden gems from late nights."
             />
             <StepCard 
-              number={2}
+              number="02"
               icon={<Users className="w-8 h-8" />}
               title="Ask Your Crew"
               description="Save images from friends and group chats. The best memories are shared ones."
             />
             <StepCard 
-              number={3}
+              number="03"
               icon={<FolderOpen className="w-8 h-8" />}
               title="Organize Favorites"
               description="Create a folder with your top picks. Quality over quantity for the best book."
@@ -50,12 +96,16 @@ const CustomizedRitual = () => {
         </div>
       </section>
 
-      {/* Customization Features */}
-      <section className="py-20 bg-secondary">
-        <div className="container mx-auto px-4">
-          <h2 className="font-display text-4xl md:text-5xl text-secondary-foreground text-center mb-12">
-            MAKE IT YOURS
-          </h2>
+      {/* Features Section */}
+      <section className="py-32 relative noise-overlay">
+        <div className="absolute inset-0 bg-muted/50" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl text-foreground">
+              MAKE IT <span className="gradient-text">YOURS</span>
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <FeatureItem 
@@ -73,16 +123,21 @@ const CustomizedRitual = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-olive">
-        <div className="container mx-auto px-4 text-center">
-          <p className="font-handwritten text-2xl md:text-3xl text-olive-foreground mb-8 max-w-2xl mx-auto">
+      <section className="py-32 relative">
+        <div className="orb w-[500px] h-[500px] bottom-0 left-1/2 -translate-x-1/2 bg-secondary/10" />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <p className="font-handwritten text-2xl md:text-3xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             "Bacchanal is not just a book. It's a ritual of remembering."
           </p>
-          <Link to="/customize" className="btn-carnival">
-            Start Customizing
+          <Link to="/customize" className="btn-modern group">
+            <span className="flex items-center gap-2">
+              Start Customizing
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
           </Link>
-          <p className="mt-8 text-olive-foreground/60 text-sm">
-            Questions? Check our <Link to="/faqs" className="underline hover:text-olive-foreground">FAQs</Link>
+          <p className="mt-8 text-muted-foreground text-sm">
+            Questions? Check our <Link to="/faqs" className="text-primary hover:underline">FAQs</Link>
           </p>
         </div>
       </section>
@@ -96,20 +151,18 @@ const StepCard = ({
   title, 
   description 
 }: { 
-  number: number;
+  number: string;
   icon: React.ReactNode; 
   title: string; 
   description: string 
 }) => (
-  <div className="relative bg-card rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-    <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center font-display text-xl text-primary-foreground">
+  <div className="step-card bento-card p-8 relative">
+    <div className="absolute top-6 right-6 font-display text-5xl text-foreground/5">
       {number}
     </div>
-    <div className="text-primary mb-4">
-      {icon}
-    </div>
-    <h3 className="font-display text-xl text-card-foreground mb-2">{title}</h3>
-    <p className="text-muted-foreground text-sm">{description}</p>
+    <div className="text-primary mb-6">{icon}</div>
+    <h3 className="font-display text-2xl text-foreground mb-3">{title}</h3>
+    <p className="text-muted-foreground">{description}</p>
   </div>
 );
 
@@ -122,13 +175,11 @@ const FeatureItem = ({
   title: string; 
   description: string 
 }) => (
-  <div className="flex gap-4 bg-secondary-foreground/10 rounded-xl p-6">
-    <div className="text-secondary-foreground shrink-0">
-      {icon}
-    </div>
+  <div className="bento-card p-8 flex gap-6">
+    <div className="text-primary shrink-0">{icon}</div>
     <div>
-      <h3 className="font-display text-xl text-secondary-foreground mb-1">{title}</h3>
-      <p className="text-secondary-foreground/80 text-sm">{description}</p>
+      <h3 className="font-display text-xl text-foreground mb-2">{title}</h3>
+      <p className="text-muted-foreground text-sm">{description}</p>
     </div>
   </div>
 );
